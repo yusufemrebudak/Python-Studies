@@ -1,0 +1,106 @@
+import pandas as pd
+from numpy.random import randn
+
+#csv dosyasından okuma işlemi yaptık 
+
+# df = pd.read_csv("netflix_titles.csv")
+# print(df)
+
+# #  show_id     type  ...                                          listed_in                                        description
+# # 0         s1  TV Show  ...  International TV Shows, TV Dramas, TV Sci-Fi &...  In a future where the elite inhabit an island ...
+# # 2         s3    Movie  ...                Horror Movies, International Movies  When an army recruit is found dead, his fellow...
+# # 3         s4    Movie  ...  Action & Adventure, Independent Movies, Sci-Fi...  In a postapocalyptic world, rag-doll robots hi...
+# # 4         s5    Movie  ...                                             Dramas  A brilliant group of students become card-coun...
+# # ...      ...      ...  ...                                                ...                                                ...
+# # 7782   s7783    Movie  ...                       Dramas, International Movies  When Lebanon's Civil War deprives Zozo of his ...
+# # 7783   s7784    Movie  ...     Dramas, International Movies, Music & Musicals  A scrappy but poor boy worms his way into a ty...
+# # 7784   s7785    Movie  ...  Documentaries, International Movies, Music & M...  In this documentary, South African rapper Nast...
+# # 7785   s7786  TV Show  ...                 International TV Shows, Reality TV  Dessert wizard Adriano Zumbo looks for the nex...
+# # 7786   s7787    Movie  ...                    Documentaries, Music & Musicals  This documentary delves into the mystique behi...
+
+# # [7787 rows x 12 columns]
+
+# df = pd.read_json("Intent.json")  json dosyasından okuma işlemi yaptık 
+# print(df)
+# #                                              intents
+# 0   {'intent': 'Greeting', 'text': ['Hi', 'Hi ther...
+# 1   {'intent': 'GreetingResponse', 'text': ['My us...
+# 2   {'intent': 'CourtesyGreeting', 'text': ['How a...
+# 3   {'intent': 'CourtesyGreetingResponse', 'text':...
+# 4   {'intent': 'CurrentHumanQuery', 'text': ['What...
+# 5   {'intent': 'NameQuery', 'text': ['What is your...
+# 6   {'intent': 'RealNameQuery', 'text': ['What is ...
+# 7   {'intent': 'TimeQuery', 'text': ['What is the ...
+# 8   {'intent': 'Thanks', 'text': ['OK thank you', ...
+# 9   {'intent': 'NotTalking2U', 'text': ['I am not ...
+# 10  {'intent': 'UnderstandQuery', 'text': ['Do you...
+# 11  {'intent': 'Shutup', 'text': ['Be quiet', 'Shu...
+# 12  {'intent': 'Swearing', 'text': ['fuck off', 'f...
+# 13  {'intent': 'GoodBye', 'text': ['Bye', 'Adios',...
+# 14  {'intent': 'CourtesyGoodBye', 'text': ['Thanks...
+# 15  {'intent': 'WhoAmI', 'text': ['Can you see me?...
+# 16  {'intent': 'Clever', 'text': ['You are very cl...
+# 17  {'intent': 'Gossip', 'text': ['I am bored goss...
+# 18  {'intent': 'Jokes', 'text': ['Tell me a joke',...
+# 19  {'intent': 'PodBayDoor', 'text': ['Open the po...
+# 20  {'intent': 'PodBayDoorResponse', 'text': ['Why...
+# 21  {'intent': 'SelfAware', 'text': ['Can you prov...
+
+###### DATA FRAMELER İLE ÇALIŞMA (SATIRA GÖRE SEÇME KOLONA GÇRE SEÇME VEYA HERHANGİ BİR KÜTÜPHANEYİ SEÇME) ##########
+df = pd.DataFrame(randn(3,3),index=['A','B','C',],columns = ["Column-1","Column-2","Column-3"])
+print(df) 
+#  Column-1  Column-2  Column-3
+# A  0.697852  0.168375 -2.861861
+# B -1.938106 -0.136268  0.704978
+# C  1.994383  0.604775 -0.707098
+
+result = df["Column-1"]
+print(result)
+# A    1.045298
+# B    1.111830
+# C    0.908686
+result = df[["Column-1","Column-2"]]
+print(result)
+#   Column-1  Column-2
+# A  1.045298  0.471133
+# B  1.111830 -0.222070
+# C  0.908686  1.181321
+result = df.loc["A"]
+print(result)
+# Column-1    1.292853
+# Column-2    1.117403
+# Column-3   -0.230146
+result = df.loc[:,"Column-1"] # Column-1 e göre seçme işlemi yapar
+print(result)
+result = df.loc[:,["Column-1","Column-2",]] # tüm satırları ve kolon1 kolon2 leri seçer
+print(result)
+result = df.loc["A",["Column-1","Column-2",]] # A satırını ve kolon1-kolon2 sutunlarını se.er
+print(result)
+result = df.loc[["A","C"],:] # A VE C satırlarını seçer ve tüm sutunları seçer
+print(result)
+result = df.loc[:,"Column-1"] # tüm satırları seçer ve colon 1 i getirir
+print(result)
+result = df.iloc[2] # 2 indeksteki satırı getirir
+print(result)
+
+result = df.loc["A","Column-2"] #A.satırın Column2 sini getirir.
+print(result)
+####### oluşturduğumuz dataframe e bir kolon veya satır ekleme işlemi ##########33
+df["Column-4"] = pd.Series(randn(3) , ["A","B","C"]) # 4.kolona 3 değer a-b ve c satırlarına yazılır
+print(df)
+df["Column-5"] = df["Column-3"] +df["Column-4"]
+print(df)
+
+
+result = df.drop("Column-5",axis = 1) # Colum-5 in yukarıdan aşşağı olduğunu söylüyoruz
+print(result)
+print(df) # orjinal df üzerinde değişiklik yapılmaz inplace=False default olarak atanmıştır. 
+# ama şöyle yaparsak
+
+
+df.drop("Column-5",axis = 1,inplace = True) # Colum-5 in yukarıdan aşşağı olduğunu söylüyoruz
+print(df)
+#  Column-1  Column-2  Column-3  Column-4
+# A -0.278760 -0.360336 -0.896010 -0.934913
+# B  0.393126 -0.780432 -0.962553  0.573399
+# C -0.850794  0.538597  0.380741  0.867778

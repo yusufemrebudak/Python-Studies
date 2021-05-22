@@ -1,0 +1,5 @@
+ahmet yılmaz:90,90,99
+mehmet yılmaz:90,70,75
+deniz budak:79,24,56
+çınar turan:86,90,87
+Mahmut Arslan:78,54,54
